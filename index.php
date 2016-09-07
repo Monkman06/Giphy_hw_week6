@@ -1,1 +1,1 @@
-<?php include_once("gyphy_week6hw.html"); ?>
+<?php include_once("index.html"); ?>

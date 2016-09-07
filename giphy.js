@@ -1,6 +1,6 @@
 var animalSet = [];
 
-//takes in user response and sends it to the giphy api
+//sends user input  from form to giphy api
 $('#findAnimal').on('click', function(){
   var userAnimal = $('#getAnimal').val().trim();
   //store animal in array
@@ -14,7 +14,7 @@ $('#findAnimal').on('click', function(){
 $(document).on('click','.animalButtons', displayAnimalImages)
 $(document).on('click', '.animalPictures', toggleAnimalImages)
 
-function makeButton(add_to_list){
+function makeButton(add_to_list){// creates dynamic button under the forms input section 
   var newDiv = $('<div class="col-md-8 buttonContainer">')
   
   var newButton = $('<button class="btn btn-info btn-block animalButtons">');
@@ -22,35 +22,35 @@ function makeButton(add_to_list){
   newButton.attr('data-name', add_to_list);
   newButton.text(add_to_list);
 
-  newDiv.append(newButton);
+  newDiv.append(newButton); // appends new button for animal name entered in form
   $('#animalButtonSection').append(newDiv);
 }
 
-function displayAnimalImages(){
+function displayAnimalImages(){// retrieves the animal gifs from gyphy api 
   var animal = $(this).attr('data-name');
   var queryURL = "http://api.giphy.com/v1/gifs/search?limit=10&q=funny+" + animal + "&api_key=dc6zaTOxFJmzC"
 
   $.ajax({url:queryURL, method:'GET'}).done(function(response){
 
-    $('#imageContainer').empty();
+    $('#imageContainer').empty(); // sends retrieved gifs to dynamic containers
 
     for(i = 0; i < response.data.length; i++){
       var gifRating = response.data[i].rating;
       var gifURL = response.data[i].images.fixed_width.url;
       var gifStill = response.data[i].images.fixed_width_still.url;
       
-      //create div container
+      //create div container for gifs
       var newDiv = $('<div class="col-md-4">');
       newDiv.attr('id', 'imgDiv' + i);
       newDiv.text('Rating: ' + gifRating);
 
-      var renderedImg = imageRender(i,gifURL,gifStill);
+      var renderedImg = imageRender(i,gifURL,gifStill); // renders image to divs & container
       newDiv.append(renderedImg);
       $('#imageContainer').append(newDiv);
     }
   });
 }
-function imageRender(count, url, still){
+function imageRender(count, url, still){ //resets & loads new gifs 
   var newImg = $('<img class="animalPictures">');
   newImg.attr('data-gif', url);
   newImg.attr('data-still-image', still);
